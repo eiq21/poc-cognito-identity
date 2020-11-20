@@ -1,0 +1,527 @@
+openapi: 3.0.1
+
+info:
+  title: OAuth AWS Cognito - AUNA
+  description: API Identity for AUNA
+  version: "1.00"
+  contact:
+    name: Enrique Inca
+    email: einca@externo.auna.pe
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: http://localhost:3000/
+    description: local server
+  - url: http://api_url_testing/
+    description: Testing server
+  - url: http://api_url_production/
+    description: Production server
+tags:
+  - name: Congito AWS
+paths:
+  /oauth/signup:
+    post:
+      summary: Register user in AWS Cognito
+      tags:
+        - SignUp
+      description: Register user in AWS Cognito
+      requestBody:
+        description: Description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/signup"
+        required: true
+      responses:
+        200:
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/signupResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/signupErrorResponse"
+  /oauth/confirm_registration:
+    post:
+      summary: Confirm registration in AWS Cognito
+      tags:
+        - Confirm registration
+      description: Confirm registration in AWS Cognito
+      requestBody:
+        description: Description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/confirmRegistration"
+        required: true
+      responses:
+        200:
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/confirmRegistrationResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/confirmRegistrationErrorResponse"
+  /oauth/authenticate:
+    post:
+      summary: Authenticate in AWS Cognito
+      tags:
+        - Authenticate
+      description: Authenticate in AWS Cognito
+      requestBody:
+        description: Description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/authenticate"
+        required: true
+      responses:
+        200:
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authenticateResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authenticateErrorResponse"
+  /oauth/authorize:
+    post:
+      summary: Authorize in AWS Cognito
+      tags:
+        - Authorize
+      description: Authorize in AWS Cognito
+      responses:
+        200:
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authorizeResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authorizeErrorResponse"
+      security:
+        - auna_oauth: []
+  /oauth/resend_confirmation_code:
+    post:
+      summary: Resend confirmation code in AWS Cognito
+      tags:
+        - Resend confirmation code
+      description: Resend confirmation code in AWS Cognito
+      requestBody:
+        description: Description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/resendConfirmationCode"
+        required: true
+      responses:
+        200:
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/resendConfirmationCodeResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/resendConfirmationCodeErrorResponse"
+      security:
+        - auna_oauth: []
+  /oauth/change_password:
+    post:
+      summary: Change Password in AWS Cognito
+      tags:
+        - Change Password
+      description: Change Password in AWS Cognito
+      requestBody:
+        description: Description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/changePassword"
+        required: true
+      responses:
+        200:
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/changePasswordResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/changePasswordErrorResponse"
+      security:
+        - auna_oauth: []
+  /oauth/forgot_password:
+    post:
+      summary: Forgot Password in AWS Cognito
+      tags:
+        - Forgot Password
+      description: Forgot Password in AWS Cognito
+      requestBody:
+        description: Description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/forgotPassword"
+        required: true
+      responses:
+        200:
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/forgotPasswordResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/forgotPasswordErrorResponse"
+  /oauth/refresh_token:
+    post:
+      summary: Refresh token in AWS Cognito
+      tags:
+        - Refresh token
+      description: Refresh token in AWS Cognito
+      requestBody:
+        description: Description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/refreshToken"
+        required: true
+      responses:
+        200:
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/refreshTokenResponse"
+                  - $ref: "#/components/schemas/refreshTokenResponseNoRefresh"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/refreshTokenErrorResponse"
+  /oauth/confirm_password:
+    post:
+      summary: Confirm Password in AWS Cognito
+      tags:
+        - Confirm Password
+      description: Confirm Password in AWS Cognito
+      requestBody:
+        description: Description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/confirmPassword"
+        required: true
+      responses:
+        200:
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/confirmPasswordResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/confirmPasswordErrorResponse"
+      security:
+        - auna_oauth: []
+components:
+  schemas:
+    signup:
+      required:
+        - email
+        - password
+        - phoneNumber
+      type: object
+      properties:
+        email:
+          type: string
+          example: einca@externo.auna.pe
+        password:
+          type: string
+          example: "P@ssw0rd"
+        phoneNumber:
+          type: string
+          example: "+51999124578"
+    signupResponse:
+      type: object
+      properties:
+        username:
+          type: string
+    signupErrorResponse:
+      type: object
+      properties:
+        status:
+          type: number
+        message:
+          type: string
+    authenticate:
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+          type: string
+          example: einca@externo.auna.pe
+        password:
+          type: string
+          example: "Passw0rd"
+    authenticateResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        idToken:
+          type: string
+        refreshToken:
+          type: string
+    authenticateErrorResponse:
+      type: object
+      properties:
+        status:
+          type: number
+        message:
+          type: string
+    confirmRegistration:
+      required:
+        - username
+        - code
+      type: object
+      properties:
+        username:
+          type: string
+          example: "einca@externo.auna.pe"
+        code:
+          type: string
+          example: "400451"
+    confirmRegistrationResponse:
+      type: string
+      example: SUCCESS
+    confirmRegistrationErrorResponse:
+      type: object
+      properties:
+        status:
+          type: number
+        message:
+          type: string
+    authorizeResponse:
+      type: boolean
+      example: true
+    authorizeErrorResponse:
+      type: object
+      properties:
+        status:
+          type: number
+        message:
+          type: string
+        detail:
+          type: string
+    resendConfirmationCode:
+      required:
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+          example: "einca@externo.auna.pe"
+    resendConfirmationCodeResponse:
+      type: object
+      properties:
+        CodeDeliveryDetails:
+          type: object
+          properties:
+            AttributeName:
+              type: string
+              example: email
+            DeliveryMedium:
+              type: string
+              example: EMAIL
+            Destination:
+              type: string
+              example: "e***@e***.pe"
+    resendConfirmationCodeErrorResponse:
+      type: object
+      properties:
+        status:
+          type: number
+        message:
+          type: string
+    changePassword:
+      required:
+        - oldPassword
+        - newPassword
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          example: P@ssw0rd
+        newPassword:
+          type: string
+          example: P@ssw0rd1
+    changePasswordResponse:
+      type: string
+      example: SUCCESS
+    changePasswordErrorResposne:
+      type: object
+      properties:
+        status:
+          type: number
+          example: 500
+        message:
+          type: string
+          example: token expired
+        details:
+          type: string
+    forgotPassword:
+      required:
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+          example: einca@externo.auna.pe
+    forgotPasswordResponse:
+      type: object
+      properties:
+        CodeDeliveryDetails:
+          type: object
+          properties:
+            AttributeName:
+              type: string
+              example: email
+            DeliveryMedium:
+              type: string
+              example: EMAIL
+            Destination:
+              type: string
+              example: "e***@e***.pe"
+    forgotPasswordErrorResposne:
+      type: object
+      properties:
+        status:
+          type: number
+          example: 500
+        message:
+          type: string
+    refreshToken:
+      required:
+        - accessToken
+        - idToken
+        - refreshToken
+      type: object
+      properties:
+        accessToken:
+          type: string
+        idToken:
+          type: string
+        refreshToken:
+          type: string
+    refreshTokenResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        idToken:
+          type: string
+        refreshToken:
+          type: string
+    refreshTokenResponseNoRefresh:
+      type: object
+      properties:
+        message:
+          type: string
+    refreshTokenErrorResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          example: 500
+        message:
+          type: string
+        detail:
+          type: string
+    confirmPassword:
+      required:
+        - username
+        - code
+        - newPassword
+      type: object
+      properties:
+        username:
+          type: string
+          example: einca@externo.auna.pe
+        code:
+          type: string
+          example: "024218"
+        newPassword:
+          type: string
+          example: "P@ssw0rd2"
+    confirmPasswordResponse:
+      type: string
+      example: SUCCESS
+    confirmPasswordErrorResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          example: 500
+        message:
+          type: string
+          example: Invalid code provided, please request a code again.
+
+  securitySchemes:
+    auna_oauth: # arbitrary name for the security scheme
+      description: '"Standard Authorization header. Example: "{accessToken}"'
+      type: apiKey
+      in: header
+      name: Authorization
+# security:
+#   - auna_oauth: []
+# securitySchemes:
+#   auna_oauth:
+#     type: oauth2
+#     description: This API uses OAuth 2 with the implicit grant flow.
+#     flows:
+#       implicit:
+#         authorizationUrl: /oauth/authorize
+#         scopes:
+#           write_users_cognito: read your users cognito
+#           read_users_cognito: modify  users cognito in your account
+# security:
+#   - auna_oauth:
+#       - write_users_cognito
+#       - read_users_cognito
